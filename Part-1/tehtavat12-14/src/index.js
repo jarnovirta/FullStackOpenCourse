@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './index.css'
 
 class App extends React.Component {
     constructor(props) {
@@ -10,6 +11,9 @@ class App extends React.Component {
         selected: 0,
         votes: votes      
         }
+    }
+    getMostVotedAnecdoteIndex = () => {
+        return this.state.votes.indexOf(Math.max.apply(Math, this.state.votes))
     }
     changeAnecdoteHandler = () => {
         this.setState({ selected: Math.floor(Math.random() * this.props.anecdotes.length)})
@@ -25,15 +29,29 @@ class App extends React.Component {
             })}
     }
     render() {
+      let mostVotedIndex = this.getMostVotedAnecdoteIndex()
+      console.log(mostVotedIndex)
       return (
         <div>
-          <p>{this.props.anecdotes[this.state.selected]}</p>
-          <p>has {this.state.votes[this.state.selected]} votes</p>
-          <button onClick={this.voteHandler(this.state.selected)}>vote</button>
-          <button onClick={this.changeAnecdoteHandler}>next anecdote</button>
+            <Anecdote text = {this.props.anecdotes[this.state.selected]} 
+                votes = {this.state.votes[this.state.selected]} />
+            <button onClick={this.voteHandler(this.state.selected)}>vote</button>
+            <button onClick={this.changeAnecdoteHandler}>next anecdote</button>
+
+            <h2>anecdote with most votes:</h2>
+            <Anecdote text = {this.props.anecdotes[mostVotedIndex]} 
+                votes = {this.state.votes[mostVotedIndex]} />
         </div>
       )
     }
+  }
+  const Anecdote = ( {text, votes }) => {
+      return (
+          <div>
+            <p>{text}</p>
+            <p>has {votes} votes</p>
+          </div>
+      )
   }
   
   const anecdotes = [
