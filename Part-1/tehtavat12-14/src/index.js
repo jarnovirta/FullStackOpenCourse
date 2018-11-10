@@ -4,22 +4,33 @@ import ReactDOM from 'react-dom';
 class App extends React.Component {
     constructor(props) {
       super(props)
+      let votes = []
+      props.anecdotes.forEach(() => votes.push(0))
       this.state = {
-        selected: 0
-      }
+        selected: 0,
+        votes: votes      
+        }
     }
     changeAnecdoteHandler = () => {
-        this.setState(() => {
-            let newSelection = Math.floor(Math.random() * this.props.anecdotes.length)
-            console.log(newSelection)
-            return { selected: newSelection}
-        })
-    } 
+        this.setState({ selected: Math.floor(Math.random() * this.props.anecdotes.length)})
+    }
+    voteHandler = (anecdoteIndex) => { 
+        return () => { 
+            this.setState(prevState => {
+                const newVotes = [...prevState.votes]
+                let voteCount =  newVotes[anecdoteIndex]
+                if (isNaN(voteCount)) voteCount = 0
+                newVotes[anecdoteIndex] = ++voteCount
+                return { votes: newVotes}
+            })}
+    }
     render() {
       return (
         <div>
           <p>{this.props.anecdotes[this.state.selected]}</p>
-          <button onClick={this.changeAnecdoteHandler}>Vaihda</button>
+          <p>has {this.state.votes[this.state.selected]} votes</p>
+          <button onClick={this.voteHandler(this.state.selected)}>vote</button>
+          <button onClick={this.changeAnecdoteHandler}>next anecdote</button>
         </div>
       )
     }
