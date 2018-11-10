@@ -64,21 +64,25 @@ const Statistics = ({state}) => {
                 return (
                     <div>
                         <h1>statistiikka</h1>
-                        {Object.keys(state.reviews).map((review, index) => <Statistic title={review} value={state.reviews[review].count} key={index}/>) }
-                        <Statistic title="keskiarvo" value={state.reviewAvg} />
-                        <Statistic title="positiivisia" value={state.posReviewPercent} unit="%"/>
+                        <table>
+                            <tbody>
+                                {Object.keys(state.reviews).map((review, index) => <Statistic title={review} value={state.reviews[review].count} key={index}/>) }
+                                <Statistic title="keskiarvo" value={state.reviewAvg} />
+                                <Statistic title="positiivisia" value={state.posReviewPercent} unit="%"/>
+                            </tbody>
+                        </table>
                     </div>
                 )
             }
         return (<div><h1>statistiikka</h1><p>ei yhtään palautetta annettu</p></div>)
         }
-    
 
-const Statistic = (props) => {
+        const Statistic = (props) => {
     return (
-        <div>
-            <p>{props.title} {props.value} {props.unit}</p>
-        </div>
+        <tr>
+            <td>{props.title}</td>
+            <td>{props.value} {props.unit}</td>
+        </tr>
     )
 }
 const Button = ({ handleClick, text }) => (
