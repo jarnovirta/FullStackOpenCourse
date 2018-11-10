@@ -11,7 +11,8 @@ class App extends React.Component {
                 "Huono":  {count: 0, value: -1},
             },
             reviewAvg: 0,
-            posReviewPercent: 0
+            posReviewPercent: 0,
+            reviewsGiven: false
         }
     }
     handleReview = (review) => {
@@ -33,7 +34,8 @@ class App extends React.Component {
                 if (totalCount > 0) {
                     newState.reviewAvg = Number((sum / totalCount).toFixed(2))
                     newState.posReviewPercent =  Number((positiveCount / totalCount * 100).toFixed(2))
-                }    
+                }
+                newState.reviewsGiven = true    
                 return newState
         })}
     }    
@@ -58,15 +60,20 @@ const Review = ({clickHandler, reviewOptions}) => {
     )
 }
 const Statistics = ({state}) => {
-    return (
-        <div>
-            <h1>statistiikka</h1>
-            { Object.keys(state.reviews).map((review, index) => <Statistic title={review} value={state.reviews[review].count} key={index}/>) }
-            <Statistic title="keskiarvo" value={state.reviewAvg} />
-            <Statistic title="positiivisia" value={state.posReviewPercent} unit="%"/>
-        </div>
-    )
-}
+        if (state.reviewsGiven) {
+                return (
+                    <div>
+                        <h1>statistiikka</h1>
+                        {Object.keys(state.reviews).map((review, index) => <Statistic title={review} value={state.reviews[review].count} key={index}/>) }
+                        <Statistic title="keskiarvo" value={state.reviewAvg} />
+                        <Statistic title="positiivisia" value={state.posReviewPercent} unit="%"/>
+                    </div>
+                )
+            }
+        return (<div><h1>statistiikka</h1><p>ei yhtään palautetta annettu</p></div>)
+        }
+    
+
 const Statistic = (props) => {
     return (
         <div>
