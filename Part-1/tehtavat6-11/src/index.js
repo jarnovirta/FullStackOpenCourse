@@ -6,10 +6,12 @@ class App extends React.Component {
         super()
         this.state = {
             reviews: {
-                "Hyvä": 0,
-                "Neutraali": 0,
-                "Huono": 0
-            }
+                "Hyvä": {count: 0, value: 1, positive: true},
+                "Neutraali": {count: 0, value: 0},
+                "Huono":  {count: 0, value: -1},
+            },
+            reviewAvg: 0,
+            posReviewPercent: 0
         }
     }
     handleReview = (review) => {
@@ -18,7 +20,20 @@ class App extends React.Component {
                 const newState = {
                     reviews: prevState.reviews
                 }
-                newState.reviews[review] += 1
+                let reviews = newState.reviews, sum = 0, totalCount = 0, positiveCount = 0
+                reviews[review].count += 1
+                Object.keys(reviews).map((review) => {
+                    sum += reviews[review].value * reviews[review].count
+                    totalCount += reviews[review].count
+                    if (reviews[review].positive === true) {
+                        positiveCount += reviews[review].count
+                    }
+                }    
+                )
+                if (totalCount > 0) {
+                    this.state.reviewAvg = Number((sum / totalCount).toFixed(2))
+                    this.state.posReviewPercent =  Number((positiveCount / totalCount * 100).toFixed(2))
+                }    
                 return newState
         })}
     }    
@@ -26,7 +41,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <Statistics reviews={this.state.reviews}/>
+                <Statistics state={this.state}/>
                 <Review clickHandler={this.handleReview.bind(this)}
                     reviewOptions={Object.keys(this.state.reviews)} />
 
@@ -42,11 +57,13 @@ const Review = ({clickHandler, reviewOptions}) => {
         </div>
     )
 }
-const Statistics = ({reviews}) => {
+const Statistics = ({state}) => {
     return (
         <div>
             <h1>statistiikka</h1>
-            { Object.keys(reviews).map((review, index) => <p key={index}>{review} {reviews[review]}</p>) }
+            { Object.keys(state.reviews).map((review, index) => <p key={index}>{review} {state.reviews[review].count}</p>) }
+            <p>keskiarvo {state.reviewAvg}</p>
+            <p>positiivisia {state.posReviewPercent}</p>
         </div>
     )
 }
