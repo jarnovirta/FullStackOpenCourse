@@ -22,7 +22,7 @@ class App extends React.Component {
                 }
                 let reviews = newState.reviews, sum = 0, totalCount = 0, positiveCount = 0
                 reviews[review].count += 1
-                Object.keys(reviews).map((review) => {
+                Object.keys(reviews).forEach((review) => {
                     sum += reviews[review].value * reviews[review].count
                     totalCount += reviews[review].count
                     if (reviews[review].positive === true) {
@@ -31,8 +31,8 @@ class App extends React.Component {
                 }    
                 )
                 if (totalCount > 0) {
-                    this.state.reviewAvg = Number((sum / totalCount).toFixed(2))
-                    this.state.posReviewPercent =  Number((positiveCount / totalCount * 100).toFixed(2))
+                    newState.reviewAvg = Number((sum / totalCount).toFixed(2))
+                    newState.posReviewPercent =  Number((positiveCount / totalCount * 100).toFixed(2))
                 }    
                 return newState
         })}
@@ -61,9 +61,16 @@ const Statistics = ({state}) => {
     return (
         <div>
             <h1>statistiikka</h1>
-            { Object.keys(state.reviews).map((review, index) => <p key={index}>{review} {state.reviews[review].count}</p>) }
-            <p>keskiarvo {state.reviewAvg}</p>
-            <p>positiivisia {state.posReviewPercent}</p>
+            { Object.keys(state.reviews).map((review, index) => <Statistic title={review} value={state.reviews[review].count} key={index}/>) }
+            <Statistic title="keskiarvo" value={state.reviewAvg} />
+            <Statistic title="positiivisia" value={state.posReviewPercent} unit="%"/>
+        </div>
+    )
+}
+const Statistic = (props) => {
+    return (
+        <div>
+            <p>{props.title} {props.value} {props.unit}</p>
         </div>
     )
 }
