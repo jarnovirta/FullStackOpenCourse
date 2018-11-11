@@ -1,17 +1,23 @@
 import React from 'react'
 import NewContact from './components/NewContact'
 import FilterContacts from './components/FilterContacts'
+import personService from './services/persons'
 import './index.css'
 
 class App extends React.Component {
     constructor(props) {
       super(props)
       this.state = {
-        persons: [{ name: 'Arto Hellas', number: '040-123456', show:true }],
+        persons: [],
         newName: '',
         newNumber: '',
         filterString: ''
       }
+    }
+    componentDidMount() {
+        personService.getAll().then(persons => {
+            this.setState({persons:persons})
+        })
     }
     addContactHandler = (event) => {
         event.preventDefault()
