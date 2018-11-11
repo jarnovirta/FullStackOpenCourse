@@ -86,6 +86,7 @@ const App = () => {
     
       return (
         <div>
+            <h1>Opetusohjelma</h1>
             { kurssit.map((kurssi) => <Kurssi kurssi={kurssi} />)} 
         </div>
       )
