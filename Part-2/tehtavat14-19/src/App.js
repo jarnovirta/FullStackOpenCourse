@@ -76,7 +76,7 @@ class App extends React.Component {
     handleNumberInput = (event) => { this.setState({ newNumber: event.target.value })}
 
     handleSearchInput = (event) => { 
-        const input = event.target.value.trim()
+        const input = event.target.value
         this.setState(prevState => {
             const newState = {...prevState}
             newState.filterString = input
