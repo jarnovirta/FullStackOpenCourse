@@ -8,8 +8,7 @@ const CountryDetail = ({country}) => {
         <img src={country.flag} alt="Flag of {country.name}" className="flag"/>
     </div>)
 }
-const CountryView = ({countries, filterString, setSearchString}) => {
-    const selectCountry = (country) => { return () => setSearchString(country.name)}
+const CountryView = ({countries, filterString, handleCountrySelection}) => {
     const filteredCountries = countries.filter(country => 
                 (filterString === '' 
                 || country.name.toLowerCase().indexOf(filterString.toLowerCase()) > -1)
@@ -20,7 +19,7 @@ const CountryView = ({countries, filterString, setSearchString}) => {
     else return (
         <div>
             { filteredCountries.map(country => 
-                <p onClick={selectCountry(country)} key={country.name}>{country.name}</p>) }
+                <p onClick={handleCountrySelection(country.name)} key={country.name}>{country.name}</p>) }
         </div>
     )
 }

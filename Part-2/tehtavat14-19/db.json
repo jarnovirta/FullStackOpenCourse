@@ -1,24 +1,14 @@
 {
   "persons": [
     {
-      "name": "Jarno Virta",
-      "number": "445566",
-      "id": 6
-    },
-    {
       "name": "dfssdf",
       "number": "sdfsdf",
       "id": 9
     },
     {
-      "name": "samantha fox 69",
-      "number": "44556",
+      "name": "Jarno Virta",
+      "number": "12345",
       "id": 10
-    },
-    {
-      "name": "a",
-      "number": "5",
-      "id": 11
     }
   ]
 }
