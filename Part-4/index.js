@@ -5,7 +5,10 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const blogsRouter = require('./controllers/blogs')
+const userRouter = require('./controllers/users')
+const loginRouter = require('./controllers/login')
 const config = require('./utils/config')
+const tokenExtractor = require('./middleware/tokenExtractor')
 
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
@@ -21,8 +24,11 @@ mongoose.connect(config.mongoUrl, { useNewUrlParser: true })
 app.use(cors())
 app.use(bodyParser.json())
 app.use(express.static('build'))
+app.use(tokenExtractor)
 
 app.use('/api/blogs', blogsRouter)
+app.use('/api/users', userRouter)
+app.use('/api/login', loginRouter)
 
 const server = http.createServer(app)
 
