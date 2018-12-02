@@ -10,6 +10,7 @@ const loginRouter = require('./controllers/login')
 const config = require('./utils/config')
 const tokenExtractor = require('./middleware/tokenExtractor')
 
+
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
   }
