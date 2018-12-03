@@ -12,9 +12,9 @@ class CreateBlog extends React.Component {
     }
     inputHandler = (event) => {
         this.setState({ [event.target.name]: event.target.value })
-
     }
-    formHandler = () => {
+    formHandler = (event) => {
+        event.preventDefault()
         this.submitHandler({ title: this.state.title,
             author: this.state.author,
             url: this.state.url

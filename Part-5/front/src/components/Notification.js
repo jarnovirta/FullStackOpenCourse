@@ -1,15 +1,19 @@
 import React from 'react'
 
-const Notification = ({ message }) =>{
+const Notification = ({ message }) => {
+    const color = message.type === 'error' ? '#DC143C' : 'green'
     const style = {
-        display: message !== null ? '' : 'none',
-        backgroundColor: '#DC143C',
-        color: 'white',
-        height: 30
+        display: message.text ? '' : 'none',
+        border: 'solid',
+        borderColor: color,
+        color: color,
+        height: 30,
+        padding: 15
     }
+
     return (
         <div style={style}>
-            <p>{message}</p>
+            <p>{message.text}</p>
         </div>
     )
 }

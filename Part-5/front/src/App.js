@@ -14,7 +14,7 @@ class App extends React.Component {
       username: '',
       password: '',
       user: null,
-      error: null
+      message: {}
     }
   }
 
@@ -30,18 +30,16 @@ class App extends React.Component {
 
   login = async (event) => {
     event.preventDefault()
-    console.log('logging in with', this.state.username, this.state.password)
     const user = await loginService.login({
       username: this.state.username,
       password: this.state.password })
 
-    if (user === null) {
+    if (!user) {
       this.setState({
         username: '',
-        password: '',
-        error: 'login failed!'
+        password: ''
       })
-      setTimeout(() => this.setState({ error: null}), 5000)
+      this.showMessage(`wrong username or password`, 'error')
     }
     else {
       this.setState({
@@ -49,6 +47,7 @@ class App extends React.Component {
         password: '',
         user: user})
       window.localStorage.setItem('loggedInBlogAppUser', JSON.stringify(user))
+      this.showMessage(`user ${user.username} logged in`, 'success')
     }
   }
 
@@ -59,22 +58,29 @@ class App extends React.Component {
   logout = () => {
     window.localStorage.removeItem('loggedInBlogAppUser')
     this.setState({ user: null })
+    this.showMessage(`user ${this.state.user.username} logged out`, 'success')
+
   }
 
   createBlogHandler = async (blog) => {
     try {
       blog = await blogService.create(blog, this.state.user.token)
       this.setState({ blogs : this.state.blogs.concat(blog) })
+      this.showMessage(`a new blog '${blog.title}' by ${blog.author} added`, 'success')
     }
     catch (error) {
-      this.setState({ error: 'failed to add blog!'})
+      this.showMessage('failed to add blog!', 'error')
     }
   }
 
+  showMessage = (message, type) => {
+    this.setState({ message: { text: message, type: type }})
+    setTimeout(() => this.setState({ message: {} }), 5000)
+  }
   render() {
     return (
       <div>
-        <Notification message={this.state.error} />
+        <Notification message={this.state.message} />
         {this.state.user === null ?
           <Login inputHandler={this.loginFieldChange}
             loginHandler={this.login}
