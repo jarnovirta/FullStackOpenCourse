@@ -122,7 +122,7 @@ class App extends React.Component {
             username={this.state.username}
             password={this.state.password} />
         </div>
-        <div style={showWhenLoggedIn}>
+        <div className="blogs" style={showWhenLoggedIn}>
           <h2>blogs</h2>
           <div>{username} logged in <button onClick={this.logout}>logout</button></div>
           {this.state.blogs.map(blog =>
