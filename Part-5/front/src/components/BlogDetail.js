@@ -8,7 +8,7 @@ const BlogDetail = ({ blog, likeHandler, deleteHandler, deletable }) => {
     return (
         <div style={detailStyle}>
             <a href={href}>{blog.url}</a><br />
-            {blog.likes}&nbsp;<button onClick={likeHandler(blog)}>like</button>
+            <div className="likes">{blog.likes}&nbsp;<button onClick={likeHandler(blog)}>like</button></div>
             <div>added by {blog.user ? blog.user.name : ''}</div>
             <button style={showDeleteButton} onClick={deleteHandler(blog)}>delete</button>
         </div>

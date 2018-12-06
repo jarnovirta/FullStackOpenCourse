@@ -32,8 +32,8 @@ class Blog extends React.Component {
     }
     return (
       <div style={blogStyle}>
-        <div onClick={this.toggleDetail}>{this.state.blog.title} {this.state.blog.author}</div>
-        <div style={detailView}>
+        <div className="clickableTitle" onClick={this.toggleDetail}>{this.state.blog.title} {this.state.blog.author}</div>
+        <div className="detail" style={detailView}>
           <BlogDetail blog={this.state.blog}
             likeHandler={this.likeHandler}
             deleteHandler={this.deleteHandler}
