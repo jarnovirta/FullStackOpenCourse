@@ -3,21 +3,29 @@ import { mount } from 'enzyme'
 import Blog from './Blog'
 
 describe('<Blog />', () => {
-    const blog = {
-        title: "test title",
-        author: "some author",
-        likes: 4
-    }
-    const mockLikeHandler = jest.fn()
-    const mockDeleteHandler = jest.fn()
-    const blogComponent = mount(<Blog
-        blog={blog}
-        likeHandler={mockLikeHandler}
-        deleteHandler={mockDeleteHandler}
-        isByCurrentUser={true}
-        />)
-    const detailComponent = blogComponent.find('BlogDetail')
-    const clickableTitle = blogComponent.find('.clickableTitle')
+    let blog
+    let mockLikeHandler
+    let mockDeleteHandler
+    let blogComponent
+    let detailComponent
+    let clickableTitle
+    beforeAll(() => {
+        blog = {
+            title: "test title",
+            author: "some author",
+            likes: 4
+        }
+        mockLikeHandler = jest.fn()
+        mockDeleteHandler = jest.fn()
+        blogComponent = mount(<Blog
+            blog={blog}
+            likeHandler={mockLikeHandler}
+            deleteHandler={mockDeleteHandler}
+            isByCurrentUser={true}
+            />)
+        detailComponent = blogComponent.find('BlogDetail')
+        clickableTitle = blogComponent.find('.clickableTitle')
+    })
 
     it('title and author are shown', () => {
         expect(clickableTitle.text()).toContain(blog.title)
