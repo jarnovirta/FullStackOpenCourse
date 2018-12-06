@@ -1,7 +1,12 @@
 import React from 'react'
 import BlogDetail from './BlogDetail'
+import PropTypes from 'prop-types'
 
 class Blog extends React.Component {
+  static propTypes = {
+    blog: PropTypes.object.isRequired,
+    isByCurrentUser: PropTypes.bool.isRequired
+  }
   constructor(props) {
     super(props)
     this.state = {
@@ -12,6 +17,7 @@ class Blog extends React.Component {
     this.likeHandler = props.likeHandler
     this.deleteHandler = props.deleteHandler
   }
+
   toggleDetail = () => {
     this.setState({ showDetail: !this.state.showDetail })
   }

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const BlogDetail = ({ blog, likeHandler, deleteHandler, deletable }) => {
     const detailStyle = { marginLeft: 10 }
@@ -13,4 +14,10 @@ const BlogDetail = ({ blog, likeHandler, deleteHandler, deletable }) => {
         </div>
     )
 }
+BlogDetail.propTypes = {
+    blog: PropTypes.object.isRequired,
+    likeHandler: PropTypes.func.isRequired,
+    deleteHandler: PropTypes.func.isRequired,
+    deletable: PropTypes.bool.isRequired
+  }
 export default BlogDetail
