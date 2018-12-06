@@ -4,7 +4,7 @@ import Blog from './Blog'
 import SimpleBlog from './SimpleBlog';
 
 describe.only('<SimpleBlog />', () => {
-    it(('renders blog, author, likes'), () => {
+    it('renders blog, author, likes', () => {
         const blog = {
             title: "test title",
             author: "some author",
@@ -16,7 +16,10 @@ describe.only('<SimpleBlog />', () => {
             onClick={jest}
             />)
         const titleDiv = blogComponent.find('.title')
-        const contendDiv = blogComponent.find('.content')
+        const contentDiv = blogComponent.find('.content')
         expect(titleDiv.text()).toContain(blog.title)
+        expect(titleDiv.text()).toContain(blog.author)
+        expect(contentDiv.text()).toContain(blog.likes)
     })
+
 })
