@@ -55,7 +55,7 @@ const About = () => {
           <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
         </Col>
         <Col xs={6}>
-          <img style={imgStyle} src="https://i.pinimg.com/originals/0e/60/13/0e6013049ab0e97d82af1278cccdb0e9.png" />
+          <img style={imgStyle} alt="Steve Wozniak" src="https://i.pinimg.com/originals/0e/60/13/0e6013049ab0e97d82af1278cccdb0e9.png" />
         </Col>
       </Row>
     </Grid>
