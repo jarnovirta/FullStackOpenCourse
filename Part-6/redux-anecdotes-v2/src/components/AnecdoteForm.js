@@ -1,25 +1,34 @@
 import React from 'react'
 import { create } from './../reducers/anecdoteReducer'
+import { notify } from './../reducers/notificationReducer'
+import { connect } from 'react-redux'
 
-class AnecdoteForm extends React.Component {
-  handleSubmit = (e) => {
+const AnecdoteForm = (props) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     const content = e.target.anecdote.value
-    this.props.store.dispatch(create(content))
-
+    props.create(content)
+    props.notify(`you added '${content}'`)
     e.target.anecdote.value = ''
   }
-   render() {
-     return (
-       <div>
-      <h2>create new</h2>
-        <form onSubmit={this.handleSubmit}>
-          <div><input name='anecdote'/></div>
-          <button>create</button>
-        </form>
-      </div>
-     )
-   }
+
+  return (
+  <div>
+  <h2>create new</h2>
+    <form onSubmit={handleSubmit}>
+      <div><input name='anecdote'/></div>
+      <button>create</button>
+    </form>
+  </div>
+  )
 }
 
-export default AnecdoteForm
+const mapDispatchToProps = {
+  create, notify
+}
+const ConnectedAnecdoteForm = connect(
+  null,
+  mapDispatchToProps
+  )(AnecdoteForm)
+
+export default ConnectedAnecdoteForm
