@@ -1,13 +1,7 @@
 import React from 'react'
-import { clearNotification } from './../reducers/notificationReducer'
 import { connect } from 'react-redux'
 
 class Notification extends React.Component {
-  componentDidUpdate() {
-    if (this.props.notification.length > 0) {
-      setTimeout(() => this.props.clearNotification(), 5000)
-    }
-  }
   render() {
     const style = {
       border: 'solid',
@@ -23,16 +17,13 @@ class Notification extends React.Component {
     )
   }
 }
-const mapDispatchToProps = {
-  clearNotification
-}
+
 const mapStateToProps = (state) => {
   return {
     notification: state.notification
   }
 }
 const ConnectedNotification = connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps
   )(Notification)
 export default ConnectedNotification

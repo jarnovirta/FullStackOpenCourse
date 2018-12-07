@@ -2,13 +2,11 @@ import React from 'react'
 import { vote } from './../reducers/anecdoteReducer'
 import { notify } from './../reducers/notificationReducer'
 import { connect } from 'react-redux'
-import anecdoteService from './../services/anecdotes'
 
 const AnecdoteList = props => {
-  const voteHandler = (anecdote) => async () => {
-    anecdote = await anecdoteService.update(anecdote)
-    props.vote(anecdote.id)
-    props.notify(`you voted '${anecdote.content}'`)
+  const voteHandler = (anecdote) => () => {
+    props.vote(anecdote)
+    props.notify(`you voted '${anecdote.content}'`, 5)
   }
   return (
     <div>

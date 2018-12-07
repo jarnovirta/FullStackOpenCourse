@@ -8,12 +8,13 @@ const reducer = (store = '', action) => {
 
     return store
 }
-export const notify = notification =>  {
-  return {
-  type: 'SET_NOTIFICATION',
-  notification: notification
+export const notify = (notification, time) => {
+  return (dispatch) => {
+    dispatch({
+      type: 'SET_NOTIFICATION',
+      notification: notification
+    })
+    setTimeout(() => dispatch({ type: 'CLEAR' }), time * 1000)
   }
 }
-export const clearNotification = () => { return { type: 'CLEAR' }}
-
 export default reducer
