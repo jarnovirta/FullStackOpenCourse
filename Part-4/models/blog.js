@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const User = require('./user')
 
 mongoose.set('useFindAndModify', false)
 const BlogSchema = new mongoose.Schema({
@@ -14,7 +15,7 @@ BlogSchema.statics.format = (blog) => {
     author: blog.author,
     url: blog.url,
     likes: blog.likes,
-    user: blog.user,
+    user: blog.user ? User.format(blog.user) : null,
     id: blog._id
   }
 }
