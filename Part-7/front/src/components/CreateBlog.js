@@ -1,24 +1,26 @@
 import React from 'react'
+import { notify } from './../reducers/notificationReducer'
+import { connect } from 'react-redux'
+import { create } from './../reducers/blogReducer'
 
 class CreateBlog extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            title: '',
-            author: '',
-            url: ''
-        }
-        this.submitHandler = props.submitHandler
-    }
-    inputHandler = (event) => {
-        this.setState({ [event.target.name]: event.target.value })
-    }
-    formHandler = (event) => {
+    formHandler = async (event) => {
         event.preventDefault()
-        this.submitHandler({ title: this.state.title,
-            author: this.state.author,
-            url: this.state.url
-        })
+
+        let blog = {
+            title: event.target.title.value,
+            author: event.target.author.value,
+            url: event.target.url.value
+        }
+        event.target.title.value = event.target.author.value = event.target.url.value = ''
+
+        try {
+            await this.props.create(blog)
+            this.props.notify({ text: `a new blog '${blog.title}' by ${blog.author} added`, type: 'success' }, 5)
+          }
+          catch (error) {
+            this.props.notify({ text: `failed to add blog (code ${error.response.status})!`, type: 'error' }, 5)
+          }
     }
 
     render () {
@@ -28,22 +30,19 @@ class CreateBlog extends React.Component {
                     title
                     <input
                         type="text"
-                        name="title"
-                        onChange={this.inputHandler} />
+                        name="title" />
                     <br />
 
                     author
                     <input
                         type="text"
-                        name="author"
-                        onChange={this.inputHandler} />
+                        name="author" />
                     <br />
 
                     url
                     <input
                         type="text"
-                        name="url"
-                        onChange={this.inputHandler} />
+                        name="url" />
                     <br />
                     <button type="submit">create</button>
                 </form>
@@ -52,4 +51,7 @@ class CreateBlog extends React.Component {
     }
 }
 
-export default CreateBlog
+const mapDispatchersToProps = {
+    notify, create
+}
+export default connect(null, mapDispatchersToProps)(CreateBlog)

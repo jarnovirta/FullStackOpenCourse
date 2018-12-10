@@ -11,7 +11,6 @@ router.get('/', async (request, response) => {
 router.get('/:id', async (request, response) => {
   try {
     const blog = await Blog.findById(request.params.id).populate('user')
-    blog.user = User.format(blog.user)
     response.json(Blog.format(blog))
   }
   catch (e) {
@@ -37,6 +36,7 @@ router.post('/', async (request, response) => {
     blog = await blog.save()
     user.blogs = user.blogs.concat(blog._id)
     await user.save()
+    blog.user = user
     response.status(201).json(Blog.format(blog))
   }
   catch (e) {

@@ -37,8 +37,7 @@ class Blog extends React.Component {
           <BlogDetail blog={this.state.blog}
             likeHandler={this.likeHandler}
             deleteHandler={this.deleteHandler}
-            deletable={this.state.isByCurrentUser}
-          />
+            deletable={this.state.isByCurrentUser} />
         </div>
       </div>
     )

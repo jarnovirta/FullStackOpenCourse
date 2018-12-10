@@ -36,6 +36,7 @@ router.post('/', async (request, response) => {
     blog = await blog.save()
     user.blogs = user.blogs.concat(blog._id)
     await user.save()
+    blog.user = user
     response.status(201).json(Blog.format(blog))
   }
   catch (e) {

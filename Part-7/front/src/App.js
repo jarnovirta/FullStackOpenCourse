@@ -1,143 +1,62 @@
 import React from 'react'
+import BlogList from './components/BlogList'
 import Login from './components/Login'
 import Notification from './components/Notification'
 import CreateBlog from './components/CreateBlog'
-import blogService from './services/blogs'
-import loginService from './services/login'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import BlogList from './components/BlogList'
+import { connect } from 'react-redux'
+import { notify } from './reducers/notificationReducer'
+import { login, logout } from './reducers/userReducer'
+import { initialize, create, like } from './reducers/blogReducer'
+
 
 class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      blogs: [],
-      username: '',
-      password: '',
-      user: null,
-      message: {}
-    }
-  }
 
-  setUser = (user) => {
-    this.setState({ user: user })
-    blogService.setToken(user === null ? null : user.token)
-
-  }
-  setBlogs = (blogs) => {
-    this.setState({
-      blogs: blogs.sort((a, b) =>
-        a.likes > b.likes ? 1 : a.likes < b.likes ? -1 : 0
-      )})
-  }
   componentDidMount() {
-    blogService.getAll().then(blogs =>
-      this.setBlogs(blogs)
-    )
+    this.props.initialize()
     const userString = window.localStorage.getItem('loggedInBlogAppUser')
     if (userString !== null) {
-      this.setUser(JSON.parse(userString))
-    }
+      this.props.login(JSON.parse(userString))
 
-  }
-
-  login = async (event) => {
-    event.preventDefault()
-    let user
-    try {
-      user = await loginService.login({
-        username: this.state.username,
-        password: this.state.password })
-      this.setState({
-          username: '',
-          password: ''
-      })
     }
-    catch (error) {
-      if (error.response.status === 401) {
-        this.showMessage('wrong username or password', 'error')
-      }
-      else this.showMessage(`an error occurred (code ${error.response.status})`, 'error')
-      return
-    }
-    this.setUser(user)
-    window.localStorage.setItem('loggedInBlogAppUser', JSON.stringify(user))
-    this.showMessage(`user ${user.username} logged in`, 'success')
-  }
-
-  loginFieldChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value })
   }
 
   logout = () => {
     window.localStorage.removeItem('loggedInBlogAppUser')
-    this.setUser(null)
-    this.showMessage(`user ${this.state.user.username} logged out`, 'success')
+    const username = this.props.user.username
+    this.props.logout()
+    this.props.notify({ text: `user ${username} logged out`, type: 'success' }, 5)
   }
 
-  createBlogHandler = async (blog) => {
-    try {
-      blog = await blogService.create(blog)
-      this.setBlogs(this.state.blogs.concat(blog))
-      this.showMessage(`a new blog '${blog.title}' by ${blog.author} added`, 'success')
-    }
-    catch (error) {
-      this.showMessage(`failed to add blog (code ${error.response.status})!`, 'error')
-    }
-  }
-  likeBlogHandler = (blog) => { return async () => {
-    try {
-      blog.likes++
-      const updatedBlog = await blogService.update(blog)
-      this.setBlogs(this.state.blogs.map((listedBlog) =>
-        listedBlog.id === updatedBlog.id ? updatedBlog : listedBlog ))
-    }
-    catch (error) {
-      this.showMessage(`failed to like blog (code ${error.response.status})!`, 'error')
-    }}
-  }
-  deleteBlogHandler = (blog) => { return async () => {
-    if (!window.confirm(`delete '${blog.title}' by ${blog.author}?`)) return
-    try {
-      await blogService.remove(blog)
-      this.setBlogs(this.state.blogs.filter((listedBlog) =>
-        listedBlog.id === blog.id ? false : true ))
-    }
-    catch (error) {
-      this.showMessage(`failed to delete blog (code ${error.response.status})!`, 'error')
-    }}
-  }
-  showMessage = (message, type) => {
-    this.setState({ message: { text: message, type: type }})
-    setTimeout(() => this.setState({ message: {} }), 5000)
-  }
   render() {
-    const showWhenLoggedIn = { display: this.state.user !== null ? '' : 'none' }
-    const showWhenNotLoggedIn = { display: this.state.user !== null ? 'none' : '' }
-    const username = this.state.user ? this.state.user.username : ''
-    const currentUserId = () => this.state.user ? this.state.user.id : null
+    const showWhenLoggedIn = {
+      display: this.props.user !== null ? '' : 'none'
+    }
+    const showWhenNotLoggedIn = { display: this.props.user !== null ? 'none' : '' }
+    const username = this.props.user ? this.props.user.username : ''
+
     return (
       <div>
-        <Notification message={this.state.message} />
+        <Notification />
         <div style={showWhenNotLoggedIn}>
-          <Login inputHandler={this.loginFieldChange}
-            loginHandler={this.login}
-            username={this.state.username}
-            password={this.state.password} />
+          <Login />
         </div>
         <div className="blogs" style={showWhenLoggedIn}>
           <h2>blogs</h2>
           <div>{username} logged in <button onClick={this.logout}>logout</button></div>
-          <BlogList
-            blogs = {this.state.blogs}
-            likeBlogHandler = {this.likeBlogHandler}
-            deleteHandler = {this.deleteBlogHandler}
-            currentUserId={currentUserId()}
-          />
+          <BlogList />
           <CreateBlog submitHandler={this.createBlogHandler} />
         </div>
       </div>
-    );
+    )
   }
 }
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    blogs: state.blog,
+    user: state.user
+  }
+}
+const mapDispatchersToProps = {
+  notify, initialize, create, like, login, logout
+}
+export default connect(mapStateToProps, mapDispatchersToProps)(App)

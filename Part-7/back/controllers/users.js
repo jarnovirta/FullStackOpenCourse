@@ -5,6 +5,7 @@ var bcrypt = require('bcrypt')
 router.post('/', async (request, response) => {
     try {
         let user = request.body
+        console.log("request", request.body)
         if (!user.username || user.username.length === 0
             || !user.name || user.name.length === 0
             || !user.password || user.password.length < 3) {
