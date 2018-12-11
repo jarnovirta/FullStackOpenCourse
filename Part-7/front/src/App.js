@@ -4,17 +4,19 @@ import Login from './components/Login'
 import Notification from './components/Notification'
 import CreateBlog from './components/CreateBlog'
 import UserList from './components/UserList'
+import User from './components/User'
 import { connect } from 'react-redux'
 import { notify } from './reducers/notificationReducer'
 import { login, logout } from './reducers/userReducer'
-import { initialize, create, like } from './reducers/blogReducer'
+import { initialize as initializeBlogs, create, like } from './reducers/blogReducer'
+import { initialize as initializeUsers } from './reducers/userReducer'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 
 class App extends React.Component {
-
   componentDidMount() {
-    this.props.initialize()
+    this.props.initializeBlogs()
+    this.props.initializeUsers()
     const userString = window.localStorage.getItem('loggedInBlogAppUser')
     if (userString !== null) {
       this.props.login(JSON.parse(userString))
@@ -44,26 +46,22 @@ class App extends React.Component {
         </div>
         <div className="blogs" style={showWhenLoggedIn}>
           <h2>blog app</h2>
-
           <div>{username} logged in <button onClick={this.logout}>logout</button></div>
           <Router>
             <div>
               <Route exact path="/" render={
-                () =>
-                  (
+                () => (
                     <div>
                       <BlogList />
                       <CreateBlog submitHandler={this.createBlogHandler} />
                     </div>
                   )
               }>
-
-
               </Route>
-              <Route path="/users" render={() => <UserList /> } />
-
+              <Route exact path="/users" render={() => <UserList /> } />
+              <Route path="/users/:id" render={({ match }) => <User userId={match.params.id} /> } />
             </div>
-          </Router>
+            </Router>
         </div>
       </div>
     )
@@ -72,10 +70,11 @@ class App extends React.Component {
 const mapStateToProps = (state) => {
   return {
     blogs: state.blog,
-    user: state.user.loggedInUser
+    user: state.user.loggedInUser,
+    users: state.user.users
   }
 }
 const mapDispatchersToProps = {
-  notify, initialize, create, like, login, logout
+  notify, initializeBlogs, create, like, login, logout, initializeUsers
 }
 export default connect(mapStateToProps, mapDispatchersToProps)(App)

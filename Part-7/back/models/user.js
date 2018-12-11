@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const Blog = require('./blog')
+
 mongoose.set('useFindAndModify', false)
 
 const UserSchema = new mongoose.Schema({

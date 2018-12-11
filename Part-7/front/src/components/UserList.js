@@ -1,16 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { initialize } from './../reducers/userReducer'
+import { Link } from 'react-router-dom'
 
 class UserList extends React.Component {
-    componentDidMount() {
-        this.props.initialize()
-    }
     render() {
         const blogCount = (user) => user.blogs ? user.blogs.length : 0
-        const UserRow = ({ user }) => { return (
+        const UserRow = ({ user }) => {
+            const url = `/users/${user.id}`
+            return (
             <tr>
-                <td>{user.username}</td>
+                <td><Link to={url}>{user.username}</Link></td>
                 <td>{blogCount(user)}</td>
             </tr>
             )
@@ -35,12 +34,10 @@ class UserList extends React.Component {
         )
     }
 }
-const mapDispatchersToProps = {
-    initialize
-}
+
 const mapStateToProps = (state) => {
     return {
         users: state.user.users
     }
 }
-export default connect(mapStateToProps, mapDispatchersToProps)(UserList)
+export default connect(mapStateToProps)(UserList)

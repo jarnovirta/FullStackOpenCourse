@@ -5,7 +5,7 @@ var bcrypt = require('bcrypt')
 router.post('/', async (request, response) => {
     try {
         let user = request.body
-        console.log("request", request.body)
+
         if (!user.username || user.username.length === 0
             || !user.name || user.name.length === 0
             || !user.password || user.password.length < 3) {
@@ -30,8 +30,9 @@ router.post('/', async (request, response) => {
 })
 router.get('/', async (request, response) => {
     try {
-        const users = await User.find({})
-        response.json(users.map(User.format))
+        let users = await User.find({}).populate('blogs')
+        users = users.map(User.format)
+        response.json(users)
     }
     catch (e) {
         console.log(e)
