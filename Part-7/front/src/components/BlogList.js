@@ -51,7 +51,7 @@ class BlogList extends React.Component {
 const mapStateToProps = (state) => {
     return {
         blogs: state.blog,
-        user: state.user
+        user: state.user.loggedInUser
     }
 }
 const mapDispatchersToProps = {

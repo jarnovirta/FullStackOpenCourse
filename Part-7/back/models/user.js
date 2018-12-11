@@ -13,7 +13,8 @@ UserSchema.statics.format = (user) => {
     username: user.username,
     name: user.name,
     adult: user.adult,
-    id: user._id
+    id: user._id,
+    blogs: user.blogs
   }
 }
 const User = mongoose.model('User', UserSchema)

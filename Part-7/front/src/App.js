@@ -3,10 +3,12 @@ import BlogList from './components/BlogList'
 import Login from './components/Login'
 import Notification from './components/Notification'
 import CreateBlog from './components/CreateBlog'
+import UserList from './components/UserList'
 import { connect } from 'react-redux'
 import { notify } from './reducers/notificationReducer'
 import { login, logout } from './reducers/userReducer'
 import { initialize, create, like } from './reducers/blogReducer'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 
 class App extends React.Component {
@@ -41,10 +43,27 @@ class App extends React.Component {
           <Login />
         </div>
         <div className="blogs" style={showWhenLoggedIn}>
-          <h2>blogs</h2>
+          <h2>blog app</h2>
+
           <div>{username} logged in <button onClick={this.logout}>logout</button></div>
-          <BlogList />
-          <CreateBlog submitHandler={this.createBlogHandler} />
+          <Router>
+            <div>
+              <Route exact path="/" render={
+                () =>
+                  (
+                    <div>
+                      <BlogList />
+                      <CreateBlog submitHandler={this.createBlogHandler} />
+                    </div>
+                  )
+              }>
+
+
+              </Route>
+              <Route path="/users" render={() => <UserList /> } />
+
+            </div>
+          </Router>
         </div>
       </div>
     )
@@ -53,7 +72,7 @@ class App extends React.Component {
 const mapStateToProps = (state) => {
   return {
     blogs: state.blog,
-    user: state.user
+    user: state.user.loggedInUser
   }
 }
 const mapDispatchersToProps = {

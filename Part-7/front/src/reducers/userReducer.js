@@ -1,13 +1,24 @@
 import blogService from './../services/blogs'
+import userService from './../services/users'
 
-const reducer = (user = null, action) => {
+const reducer = (state = { users: [], loggedInUser: null }, action) => {
     if (action.type === 'LOGIN') {
-        return action.user
+        return {
+            ...state,
+            loggedInUser: action.user }
     }
     if (action.type === 'LOGOUT') {
-        return null
+        return { ...state,
+            loggedInUser: null
+        }
     }
-    return user
+    if (action.type === 'INITIALIZE_USERS') {
+        return {
+            ...state,
+            users: action.users
+        }
+    }
+    return state
 }
 
 export const login = (user) => {
@@ -20,6 +31,15 @@ export const login = (user) => {
 export const logout = () => {
     return {
         type: 'LOGOUT'
+    }
+}
+export const initialize = () => {
+    return async (dispatch) => {
+        const users = await userService.getAll()
+        dispatch({
+            type: 'INITIALIZE_USERS',
+            users: users
+        })
     }
 }
 
