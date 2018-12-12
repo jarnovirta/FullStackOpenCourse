@@ -3,6 +3,7 @@ import BlogList from './components/BlogList'
 import Login from './components/Login'
 import Notification from './components/Notification'
 import CreateBlog from './components/CreateBlog'
+import BlogDetail from './components/BlogDetail'
 import UserList from './components/UserList'
 import User from './components/User'
 import { connect } from 'react-redux'
@@ -10,7 +11,7 @@ import { notify } from './reducers/notificationReducer'
 import { login, logout } from './reducers/userReducer'
 import { initialize as initializeBlogs, create, like } from './reducers/blogReducer'
 import { initialize as initializeUsers } from './reducers/userReducer'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 
 class App extends React.Component {
@@ -46,9 +47,12 @@ class App extends React.Component {
         </div>
         <div className="blogs" style={showWhenLoggedIn}>
           <h2>blog app</h2>
-          <div>{username} logged in <button onClick={this.logout}>logout</button></div>
           <Router>
             <div>
+              <Link to="/">blogs</Link>&nbsp;
+              <Link to="/users">users</Link>&nbsp;
+              {username} logged in <button onClick={this.logout}>logout</button>
+
               <Route exact path="/" render={
                 () => (
                     <div>
@@ -60,8 +64,9 @@ class App extends React.Component {
               </Route>
               <Route exact path="/users" render={() => <UserList /> } />
               <Route path="/users/:id" render={({ match }) => <User userId={match.params.id} /> } />
+              <Route path="/blogs/:id" render={({ match }) => <BlogDetail blogId={match.params.id} />} />
             </div>
-            </Router>
+          </Router>
         </div>
       </div>
     )

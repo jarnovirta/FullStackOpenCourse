@@ -1,17 +1,20 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 class User extends React.Component {
     render () {
-        const style = { display: this.props.user ? '' : 'none'}
-        const name = this.props.user ? this.props.user.name : ''
-        const blogs = this.props.user ? this.props.user.blogs : []
+        const getPath = (id) => `/blogs/${id}`
         return (
-            <div style={style}>
-                <h1>{name}</h1>
+            <div>
+                <h1>{this.props.user.name}</h1>
                 <h2>Added blogs</h2>
                 <ul>
-                    {blogs.map(blog => <li key={blog._id}>{blog.title}</li>)}
+                    {this.props.user.blogs ? this.props.user.blogs.map(blog => <li key={blog._id}>
+                    <Link to={getPath(blog._id)}>
+                        {blog.title}
+                    </Link></li>)
+                    : []}
                 </ul>
             </div>
         )
@@ -19,8 +22,8 @@ class User extends React.Component {
 }
 const mapStateToProps = (state, ownProps) => {
     const user = state.user.users.find(user => {
-        return user.id === ownProps.userId}
-        )
+        return user.id === ownProps.userId})
+        || {}
     return {
         user: user
       }

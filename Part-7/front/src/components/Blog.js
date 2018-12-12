@@ -1,28 +1,13 @@
 import React from 'react'
-import BlogDetail from './BlogDetail'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 class Blog extends React.Component {
   static propTypes = {
-    blog: PropTypes.object.isRequired,
-    isByCurrentUser: PropTypes.bool.isRequired
-  }
-  constructor(props) {
-    super(props)
-    this.state = {
-      blog: props.blog,
-      showDetail: false,
-      isByCurrentUser: props.isByCurrentUser
-    }
-    this.likeHandler = props.likeHandler
-    this.deleteHandler = props.deleteHandler
+    blog: PropTypes.object.isRequired
   }
 
-  toggleDetail = () => {
-    this.setState({ showDetail: !this.state.showDetail })
-  }
   render () {
-    const detailView = { display: this.state.showDetail ? '' : 'none' }
     const blogStyle = {
       paddingTop: 10,
       paddingLeft: 2,
@@ -32,12 +17,10 @@ class Blog extends React.Component {
     }
     return (
       <div style={blogStyle}>
-        <div className="clickableTitle" onClick={this.toggleDetail}>{this.state.blog.title} {this.state.blog.author}</div>
-        <div className="detail" style={detailView}>
-          <BlogDetail blog={this.state.blog}
-            likeHandler={this.likeHandler}
-            deleteHandler={this.deleteHandler}
-            deletable={this.state.isByCurrentUser} />
+        <div className="clickableTitle">
+          <Link to={`/blogs/${this.props.blog.id}`}>
+            {this.props.blog.title} {this.props.blog.author}
+          </Link>
         </div>
       </div>
     )

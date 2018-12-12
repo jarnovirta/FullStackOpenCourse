@@ -1,7 +1,11 @@
 import blogService from './../services/blogs'
 import userService from './../services/users'
 
-const reducer = (state = { users: [], loggedInUser: null }, action) => {
+const reducer = (state = {
+        users: [],
+        user: {},
+        loggedInUser: null
+    }, action) => {
     if (action.type === 'LOGIN') {
         return {
             ...state,
