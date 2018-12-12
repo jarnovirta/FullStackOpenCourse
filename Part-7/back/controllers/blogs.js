@@ -11,6 +11,7 @@ router.get('/', async (request, response) => {
 router.get('/:id', async (request, response) => {
   try {
     const blog = await Blog.findById(request.params.id).populate('user')
+
     response.json(Blog.format(blog))
   }
   catch (e) {
@@ -75,7 +76,8 @@ router.put('/:id', async (request, response) => {
       title: body.title,
       author: body.author,
       url: body.url,
-      likes: body.likes
+      likes: body.likes,
+      comments: body.comments
     }
     const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
     response.json(Blog.format(updatedBlog))
@@ -85,4 +87,5 @@ router.put('/:id', async (request, response) => {
     response.status(500).json({ error: 'something went wrong...' })
   }
 })
+
 module.exports = router

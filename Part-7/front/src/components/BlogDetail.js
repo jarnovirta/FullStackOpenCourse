@@ -1,19 +1,19 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import Comments from './Comments'
 import { initialize, like, remove } from './../reducers/blogReducer'
 import { connect } from 'react-redux'
 import { notify } from './../reducers/notificationReducer'
+import { withRouter } from 'react-router-dom'
 
 class BlogDetail extends React.Component  {
-    // = ({ blog, likeHandler, deleteHandler, deletable }) =>
     deleteHandler = () => { return async () => {
-        const blog = this.props.blog
-        if (!window.confirm(`delete '${blog.title}' by ${blog.author}?`)) return
-        this.props.remove(blog)
-        this.showMessage(`deleted blog ${blog.title}`)
+            const blog = this.props.blog
+            if (!window.confirm(`delete '${blog.title}' by ${blog.author}?`)) return
+            await this.props.remove(blog)
+            this.showMessage(`deleted blog ${blog.title}`)
+            this.props.history.goBack()
         }
     }
-
     likeHandler = () => { return async () => {
         try {
             this.props.like(this.props.blog)
@@ -40,24 +40,21 @@ class BlogDetail extends React.Component  {
                 <div className="likes">{this.props.blog.likes}&nbsp;<button onClick={this.likeHandler()}>like</button></div>
                 <div>added by {this.props.blog.user ? this.props.blog.user.name : ''}</div>
                 <button style={showDeleteButton} onClick={this.deleteHandler()}>delete</button>
+                <Comments blog={this.props.blog} />
             </div>
         )
     }
 }
-BlogDetail.propTypes = {
-    blog: PropTypes.object.isRequired,
-    likeHandler: PropTypes.func.isRequired,
-    deleteHandler: PropTypes.func.isRequired,
-    deletable: PropTypes.bool.isRequired
-  }
+
 const mapStateToProps = (state, ownProps) => {
     const findBlogById = (id) => state.blog.find(blog => blog.id === id)
     return {
         blog: findBlogById(ownProps.blogId) || {},
-        user: state.user.loggedInUser
+        user: state.user.loggedInUser,
+        history: ownProps.history
     }
 }
 const mapDispatchersToProps = {
     notify, initialize, like, remove
 }
-export default connect(mapStateToProps, mapDispatchersToProps)(BlogDetail)
+export default withRouter(connect(mapStateToProps, mapDispatchersToProps)(BlogDetail))

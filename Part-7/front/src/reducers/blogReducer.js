@@ -7,10 +7,9 @@ const reducer = (blogs = [], action) => {
     if (action.type === 'INITIALIZE_BLOGS') {
         return action.blogs
     }
-    if (action.type === 'LIKE_BLOG') {
+    if (action.type === 'UPDATE_BLOG') {
         const old = blogs.filter(a => a.id !== action.id)
-        const liked = blogs.find(a => a.id === action.id)
-        return [...old, {...liked, likes: action.likes }]
+        return [...old, action.blog]
     }
     if (action.type === 'REMOVE_BLOG') {
         return blogs.filter(blog => blog.id !== action.id)
@@ -23,9 +22,19 @@ export const like = (blog) => {
         blog.likes++
         blog = await blogService.update(blog)
         dispatch({
-            type: 'LIKE_BLOG',
-            id: blog.id,
-            likes: blog.likes
+            type: 'UPDATE_BLOG',
+            blog: blog
+        })
+    }
+}
+export const comment = (blog, comment) => {
+    return async (dispatch) => {
+        if (blog.comments === undefined) blog.comments = []
+        blog.comments.push(comment)
+        blog = await blogService.update(blog)
+        dispatch({
+            type: 'UPDATE_BLOG',
+            blog: blog
         })
     }
 }

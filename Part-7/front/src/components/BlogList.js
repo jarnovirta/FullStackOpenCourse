@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 
 
 class BlogList extends React.Component {
-
     render () {
         const orderBlogs = (blogs) => blogs.sort((a, b) => a.likes < b.likes ? 1 : a.likes > b.likes ? -1 : 0)
         return (
