@@ -66,11 +66,11 @@ class App extends React.Component {
               <Menu />
               <Route exact path="/" render={
                 () => (
-                    <div>
-                      <BlogList />
-                      <CreateBlog submitHandler={this.createBlogHandler} />
-                    </div>
-                  )
+                  <div>
+                    <BlogList />
+                    <CreateBlog submitHandler={this.createBlogHandler} />
+                  </div>
+                )
               }>
               </Route>
               <Route exact path="/users" render={() => <UserList /> } />

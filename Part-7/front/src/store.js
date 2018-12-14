@@ -5,13 +5,13 @@ import userReducer from './reducers/userReducer'
 import thunk from 'redux-thunk'
 
 const reducer = combineReducers({
-    notification: notificationReducer,
-    blog: blogReducer,
-    user: userReducer
+  notification: notificationReducer,
+  blog: blogReducer,
+  user: userReducer
 })
 const store = createStore(
-    reducer,
-    applyMiddleware(thunk)
+  reducer,
+  applyMiddleware(thunk)
 )
 
 export default store

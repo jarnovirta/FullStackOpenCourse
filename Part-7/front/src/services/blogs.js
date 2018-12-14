@@ -1,7 +1,7 @@
 import axios from 'axios'
 const baseUrl = '/api/blogs'
 
-let config;
+let config
 
 const setToken = (newToken) => {
   config = {
@@ -32,4 +32,4 @@ const remove = async (blog) => {
   return response.status
 }
 
-export default { getAll, create, update, setToken, remove}
+export default { getAll, create, update, setToken, remove }
