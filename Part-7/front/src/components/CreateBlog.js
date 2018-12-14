@@ -3,6 +3,7 @@ import { notify } from './../reducers/notificationReducer'
 import { connect } from 'react-redux'
 import { create } from './../reducers/blogReducer'
 import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap'
+import PropTypes from 'prop-types'
 
 class CreateBlog extends React.Component {
   constructor(props) {
@@ -11,6 +12,11 @@ class CreateBlog extends React.Component {
       showForm: false
     }
   }
+  static propTypes = {
+    create: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired
+  }
+
   toggleForm = () => {
     this.setState({ showForm: !this.state.showForm })
   }
@@ -42,7 +48,7 @@ class CreateBlog extends React.Component {
       <div>
         <div style={formStyle}>
           <form onSubmit={this.formHandler}>
-            <FormGroup controlId="newBlog">
+            <FormGroup>
               <ControlLabel>Title</ControlLabel>
               <FormControl type="text" name="title" placeholder="Enter title" />
 

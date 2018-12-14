@@ -48,9 +48,9 @@ class App extends React.Component {
           <LinkContainer to="/users">
             <NavItem eventKey={2}>Users</NavItem>
           </LinkContainer>
-          &nbsp;{username} logged in <Button className="btn btn-default" onClick={this.logout}>logout</Button>
-
         </Nav>
+        &nbsp;{username} logged in <Button className="btn btn-default"
+          onClick={this.logout}>logout</Button>
       </div>
     )
     return (

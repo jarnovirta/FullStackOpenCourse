@@ -2,8 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { ListGroup, ListGroupItem } from 'react-bootstrap'
+import PropTypes from 'prop-types'
 
 class User extends React.Component {
+  static propTypes = {
+    user: PropTypes.object.isRequired
+  }
   render() {
     const getPath = (id) => `/blogs/${id}`
     return (

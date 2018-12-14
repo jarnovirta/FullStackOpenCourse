@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import uuidv1 from 'uuid/v1'
 import { notify } from './../reducers/notificationReducer'
 import { Button } from 'react-bootstrap'
+import PropTypes from 'prop-types'
 
 const formHandler = (blog, commentDispatcher, notify) => (event) => {
   event.preventDefault()
@@ -26,6 +27,11 @@ const Comments = ({ blog, comment, notify }) => {
       </form>
     </div>
   )
+}
+Comments.propTypes = {
+  blog: PropTypes.object.isRequired,
+  notification: PropTypes.object.isRequired
+
 }
 const mapStateToProps = (state, ownProps) => {
   return {

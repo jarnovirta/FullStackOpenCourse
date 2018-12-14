@@ -2,8 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Table } from 'react-bootstrap'
+import PropTypes from 'prop-types'
 
 class UserList extends React.Component {
+  static propTypes = {
+    users: PropTypes.array.isRequired
+  }
+
   render() {
     const blogCount = (user) => user.blogs ? user.blogs.length : 0
     const UserRow = ({ user }) => {

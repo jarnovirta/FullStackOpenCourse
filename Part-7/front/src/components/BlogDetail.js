@@ -5,8 +5,14 @@ import { connect } from 'react-redux'
 import { notify } from './../reducers/notificationReducer'
 import { withRouter } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
+import PropTypes from 'prop-types'
 
 class BlogDetail extends React.Component  {
+  static propTypes = {
+    blog: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
+  }
+
   deleteHandler = () => {
     return async () => {
       const blog = this.props.blog

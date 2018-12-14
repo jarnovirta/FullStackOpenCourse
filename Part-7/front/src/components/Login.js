@@ -4,8 +4,15 @@ import { notify } from './../reducers/notificationReducer'
 import loginService from './../services/login'
 import { connect } from 'react-redux'
 import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap'
+import PropTypes from 'prop-types'
 
 class Login extends React.Component {
+  static propTypes = {
+    login: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired
+  }
+
   login = async (event) => {
     event.preventDefault()
     let user
@@ -38,7 +45,7 @@ class Login extends React.Component {
       <div>
         <h2>Login</h2>
         <form onSubmit={this.login}>
-          <FormGroup controlId="login">
+          <FormGroup>
             <ControlLabel>Username</ControlLabel>
             <FormControl type="text" name="username" placeholder="Enter username" />
 
@@ -52,7 +59,6 @@ class Login extends React.Component {
     )
   }
 }
-
 
 const mapDispatchersToProps = {
   login, logout, notify

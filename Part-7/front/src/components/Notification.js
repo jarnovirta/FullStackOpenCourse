@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Alert } from 'react-bootstrap'
+import PropTypes from 'prop-types'
 
 const Notification = (props) => {
   const alertStyle = props.notification.type === 'error' ? 'danger' : 'success'
@@ -17,6 +18,9 @@ const mapStateToProps = (state) => {
   return {
     notification: state.notification
   }
+}
+Notification.propTypes = {
+  notification: PropTypes.string.isRequired
 }
 const ConnectedNotification = connect(
   mapStateToProps

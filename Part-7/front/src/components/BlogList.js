@@ -2,8 +2,12 @@ import React from 'react'
 import Blog from './Blog'
 import { connect } from 'react-redux'
 import { ListGroup, ListGroupItem } from 'react-bootstrap'
+import PropTypes from 'prop-types'
 
 class BlogList extends React.Component {
+  static propTypes = {
+    blogs: PropTypes.array.isRequired
+  }
   render() {
     const orderBlogs = (blogs) => blogs.sort((a, b) => a.likes < b.likes ? 1 : a.likes > b.likes ? -1 : 0)
     return (
