@@ -20,7 +20,7 @@ const mapStateToProps = (state) => {
   }
 }
 Notification.propTypes = {
-  notification: PropTypes.string.isRequired
+  notification: PropTypes.object.isRequired
 }
 const ConnectedNotification = connect(
   mapStateToProps
