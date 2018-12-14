@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { Button, Table } from 'react-bootstrap'
 
 class UserList extends React.Component {
     render() {
@@ -16,12 +17,12 @@ class UserList extends React.Component {
         }
         return (
             <div>
-                <h2>users</h2>
-                <table>
+                <h3>Users</h3>
+                <Table striped bordered condensed hover>
                     <thead>
                         <tr>
-                            <th></th>
-                            <th>blogs added</th>
+                            <th>Username</th>
+                            <th>Blogs added</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,7 +30,7 @@ class UserList extends React.Component {
                             <UserRow key={user.id} user={user} />
                         )}
                     </tbody>
-                </table>
+                </Table>
             </div>
         )
     }

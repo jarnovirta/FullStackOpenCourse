@@ -3,6 +3,7 @@ import { comment } from './../reducers/blogReducer'
 import { connect } from 'react-redux'
 import uuidv1 from 'uuid/v1'
 import { notify } from './../reducers/notificationReducer'
+import { Button } from 'react-bootstrap'
 
 const formHandler = (blog, commentDispatcher, notify) => (event) => {
     event.preventDefault()
@@ -15,13 +16,13 @@ const formHandler = (blog, commentDispatcher, notify) => (event) => {
 const Comments = ({ blog, comment, notify }) => {
     return (
         <div>
-            <h3>comments</h3>
+            <h4>Comments</h4>
             <ul>
                 { blog.comments ? blog.comments.map(comment => <li key={uuidv1()}>{comment}</li>) : [] }
             </ul>
             <form onSubmit={formHandler(blog, comment, notify)}>
                 <input type="text" name="comment" />
-                <button type="submit">add comment</button>
+                <Button type="submit">add comment</Button>
             </form>
         </div>
     )

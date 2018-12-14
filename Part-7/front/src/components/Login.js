@@ -3,6 +3,7 @@ import { login, logout } from './../reducers/userReducer'
 import { notify } from './../reducers/notificationReducer'
 import loginService from './../services/login'
 import { connect } from 'react-redux'
+import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap'
 
 class Login extends React.Component {
     login = async (event) => {
@@ -35,21 +36,17 @@ class Login extends React.Component {
     render () {
     return (
         <div>
-            <h2>Kirjaudu</h2>
+            <h2>Login</h2>
             <form onSubmit={this.login}>
-                <div>
-                    käyttäjätunnus
-                    <input name="username"
-                        type="text"
-                    />
-                </div>
-                <div>
-                    salasana
-                    <input name="password"
-                        type="password"
-                    />
-                </div>
-                <button type="submit">Kirjaudu</button>
+                <FormGroup controlId="login">
+                    <ControlLabel>Username</ControlLabel>
+                    <FormControl type="text" name="username" placeholder="Enter username" />
+
+                    <ControlLabel>Password</ControlLabel>
+                    <FormControl type="password" name="password" />
+
+                    <Button type="submit">Kirjaudu</Button>
+                </FormGroup>
             </form>
         </div>
         )

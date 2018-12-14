@@ -1,20 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Alert } from 'react-bootstrap'
 
 const Notification = (props) => {
-    const color = props.notification.type === 'error' ? '#DC143C' : 'green'
-    const style = {
-        display: props.notification.text ? '' : 'none',
-        border: 'solid',
-        borderColor: color,
-        color: color,
-        height: 30,
-        padding: 15
-    }
-
+    const alertStyle = props.notification.type === 'error' ? 'danger' : 'success'
+    const showAlertStyle = { display: props.notification.text ? '' : 'none' }
     return (
-        <div style={style}>
-            <p>{props.notification.text}</p>
+        <div style={showAlertStyle}>
+            <Alert bsStyle={alertStyle}>
+                <p>{props.notification.text}</p>
+            </Alert>
         </div>
     )
 }

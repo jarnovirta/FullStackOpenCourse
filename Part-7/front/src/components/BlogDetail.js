@@ -4,6 +4,7 @@ import { initialize, like, remove } from './../reducers/blogReducer'
 import { connect } from 'react-redux'
 import { notify } from './../reducers/notificationReducer'
 import { withRouter } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 
 class BlogDetail extends React.Component  {
     deleteHandler = () => { return async () => {
@@ -35,11 +36,11 @@ class BlogDetail extends React.Component  {
 
         return (
             <div style={style}>
-                <h2>{this.props.blog.title}</h2>
+                <h3>{this.props.blog.title}</h3>
                 <a href={href}>{this.props.blog.url}</a><br />
-                <div className="likes">{this.props.blog.likes}&nbsp;<button onClick={this.likeHandler()}>like</button></div>
                 <div>added by {this.props.blog.user ? this.props.blog.user.name : ''}</div>
-                <button style={showDeleteButton} onClick={this.deleteHandler()}>delete</button>
+                <div className="likes">{this.props.blog.likes}&nbsp;<Button onClick={this.likeHandler()}>like</Button></div>
+                <Button className="btn btn-danger" style={showDeleteButton} onClick={this.deleteHandler()}>delete</Button>
                 <Comments blog={this.props.blog} />
             </div>
         )

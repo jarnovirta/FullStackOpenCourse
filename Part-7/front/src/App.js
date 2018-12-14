@@ -11,8 +11,9 @@ import { notify } from './reducers/notificationReducer'
 import { login, logout } from './reducers/userReducer'
 import { initialize as initializeBlogs, create, like } from './reducers/blogReducer'
 import { initialize as initializeUsers } from './reducers/userReducer'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { Nav, NavItem, Button } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 
 class App extends React.Component {
   componentDidMount() {
@@ -38,21 +39,31 @@ class App extends React.Component {
     }
     const showWhenNotLoggedIn = { display: this.props.user !== null ? 'none' : '' }
     const username = this.props.user ? this.props.user.username : ''
-
-    return (
+    const Menu = () => (
       <div>
+        <Nav bsStyle="pills">
+          <LinkContainer exact to="/">
+            <NavItem eventKey={1}>Blogs</NavItem>
+          </LinkContainer>
+          <LinkContainer to="/users">
+            <NavItem eventKey={2}>Users</NavItem>
+          </LinkContainer>
+          &nbsp;{username} logged in <Button className="btn btn-default" onClick={this.logout}>logout</Button>
+
+        </Nav>
+      </div>
+    )
+    return (
+      <div className="container">
         <Notification />
         <div style={showWhenNotLoggedIn}>
           <Login />
         </div>
         <div className="blogs" style={showWhenLoggedIn}>
-          <h2>blog app</h2>
+          <h2>Blog App</h2>
           <Router>
             <div>
-              <Link to="/">blogs</Link>&nbsp;
-              <Link to="/users">users</Link>&nbsp;
-              {username} logged in <button onClick={this.logout}>logout</button>
-
+              <Menu />
               <Route exact path="/" render={
                 () => (
                     <div>
