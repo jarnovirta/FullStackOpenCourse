@@ -49,8 +49,7 @@ class App extends React.Component {
             <NavItem eventKey={2}>Users</NavItem>
           </LinkContainer>
         </Nav>
-        &nbsp;{username} logged in <Button className="btn btn-default"
-          onClick={this.logout}>logout</Button>
+
       </div>
     )
     return (
@@ -60,6 +59,10 @@ class App extends React.Component {
           <Login />
         </div>
         <div className="blogs" style={showWhenLoggedIn}>
+          <div className="pull-right">
+                {username} logged in <Button className="btn btn-default"
+                  onClick={this.logout}>logout</Button>
+              </div>
           <h2>Blog App</h2>
           <Router>
             <div>
