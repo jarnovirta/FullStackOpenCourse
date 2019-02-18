@@ -1,4 +1,3 @@
 # FullStackWebDev2018
-Helsinki University MOOC Full Stack Web Dev 2018 assignments
 
-All includes all assignments for the course. Assignments are committed individually.
+Helsinki University [Full Stack Web Development course (2018)](https://fullstackopen.github.io/) assignments. 
